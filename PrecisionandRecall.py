@@ -20,7 +20,7 @@ import pandas as pd
 #             result=result+1
 # print('prec' + str(result) + str(totalpre) )
 # print('rec'+ str(result) + str(totalrec))
-newf=open('Unseendata\\Classification\\SVMEmbPOSPrecRec.csv', 'w')
+newf=open('Unseendata\\Classification\\SVMEmbPOSPrecRecv2.csv', 'w')
 newf.write('Case'+','+'Precision'+','+'Recall'+','+'Precision%'+','+'Recall%'+'\n')
 for file in os.listdir('Unseendata\\Classification\\manual\\'):
     file=file.split('.')

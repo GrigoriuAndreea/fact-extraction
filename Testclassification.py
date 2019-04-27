@@ -149,12 +149,12 @@ import random
 #                     newf.write(str(rel_list) + "\n")
 #                     rel_list=[]
 
-# model = load_model("NNFactall20.h5")
-# model.load_weights("NNFactwall20.h5")
-# model=pickle.load(open('SVMEmb.sav', 'rb'))
-# model=pickle.load(open('SVMEmb+POS.sav', 'rb'))
-# model=pickle.load(open('RandomForestEmb.sav', 'rb'))
-model=pickle.load(open('RandomForestEmb+POS.sav', 'rb'))
+model = load_model("NNFactallv2.h5")
+model.load_weights("NNFactwallv2.h5")
+# model=pickle.load(open('SVMEmbv2.sav', 'rb'))
+# model=pickle.load(open('SVMEmb+POSv2.sav', 'rb'))
+# model=pickle.load(open('RandomForestEmbv2.sav', 'rb'))
+# model=pickle.load(open('RandomForestEmb+POSv2.sav', 'rb'))
 E1 = ['NN', 'NNS', 'NNP', 'NNPS', 'VB', 'VBD', 'VBN', 'VBP', 'VBZ']
 n=[0] * 100
 def class_assigment(y):
@@ -167,7 +167,7 @@ def class_assigment(y):
     return classes
 for files in os.listdir('Unseendata\\Classification\\sample'):
     df =open("Unseendata\\Classification\\sample\\"+files, "r", encoding='utf-8')
-    newf=open("Unseendata\\Classification\\RF\\EmbPOS\\"+files,'w',encoding='utf-8')
+    newf=open("Unseendata\\Classification\\NNv2\\Emb\\"+files,'w',encoding='utf-8')
     text=df.readlines()
     pairs=[]
     model2= gensim.models.Word2Vec.load("modfulltext_20ep.model")
@@ -180,16 +180,16 @@ for files in os.listdir('Unseendata\\Classification\\sample'):
         for j in listx:
             # print(j[0])
             try:
-                # pairline.append(model2.wv[j[0]])
-                new_v = np.append(model2.wv[j[0]], pos[j[1]])
-                pairline.append(new_v)
+                pairline.append(model2.wv[j[0]])
+                # new_v = np.append(model2.wv[j[0]], pos[j[1]])
+                # pairline.append(new_v)
             except:
-                new_v = np.append(n, pos[j[1]])
-                pairline.append(new_v)
-                # pairline.append(n)
+                # new_v = np.append(n, pos[j[1]])
+                # pairline.append(new_v)
+                pairline.append(n)
         pairs.append(pairline)
     X=np.array(list(map(lambda x: np.concatenate(x), pairs)))
-    print(X.shape)
+    # print(X.shape)
     ynew = model.predict(X)
     c=class_assigment(ynew)
     newf.write(str(c))

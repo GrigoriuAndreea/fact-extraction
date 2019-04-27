@@ -14,7 +14,7 @@ from sklearn import svm
 
 
 model2= gensim.models.Word2Vec.load("modfulltext_20ep.model")
-directory='LabeledPairs\\'
+directory='LabeledPairs2\\'
 classes=[]
 pairs=[]
 n=[0] * 100
@@ -25,7 +25,7 @@ n=[0] * 100
 for filen in os.listdir(directory):
     df = pd.read_csv(directory+ filen,encoding='unicode_escape',header=None)
     clas=[]
-    clas=df[1].tolist()
+    clas=df[2].tolist()
     classes.append(clas)
     lines = df[0].tolist()
     # print(lines)
@@ -50,7 +50,10 @@ X=np.array(list(map(lambda x: np.concatenate(x), pairs)))
 Y=np.asarray(flattened_class)
 
 train_x, test_x, train_y, test_y = train_test_split(X, Y, train_size=0.2)
-clf = svm.SVC(coef0=5)
+# clf = svm.SVC(kernel='linear')
+# clf = svm.SVC(kernel='poly',coef0=20)
+clf = svm.SVC(kernel='sigmoid',coef0=5)
+# clf = svm.SVC(kernel='rbf',gamma=0.001)
 
  # clf = svm.SVC(kernel='linear', C=1)
 # scores = cross_val_score(clf, iris.data, iris.target, cv=5)
@@ -59,5 +62,5 @@ svm_cv_score = cross_val_score(clf, X, Y, cv=10)
 # clf.predict
 print(svm_cv_score)
 print("Mean AUC Score - Random Forest: ", svm_cv_score.mean())
-# filename = 'SVMEmb.sav'
+# filename = 'SVMEmb+POSv2.sav'
 # pickle.dump(clf, open(filename, 'wb'))
